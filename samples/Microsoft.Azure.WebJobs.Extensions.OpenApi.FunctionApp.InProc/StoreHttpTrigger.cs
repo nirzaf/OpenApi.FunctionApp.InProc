@@ -19,12 +19,12 @@ namespace Microsoft.Azure.WebJobs.Extensions.OpenApi.FunctionApp.InProc
     public class StoreHttpTrigger
     {
         private readonly ILogger<StoreHttpTrigger> _logger;
-        private readonly Fixture _fixture;
+        private readonly Fixture fixture;
 
         public StoreHttpTrigger(ILogger<StoreHttpTrigger> log, Fixture fixture)
         {
             this._logger = log.ThrowIfNullOrDefault();
-            this._fixture = fixture.ThrowIfNullOrDefault();
+            this.fixture = fixture.ThrowIfNullOrDefault();
         }
 
         [FunctionName(nameof(StoreHttpTrigger.GetInventory))]
@@ -34,7 +34,7 @@ namespace Microsoft.Azure.WebJobs.Extensions.OpenApi.FunctionApp.InProc
         public async Task<IActionResult> GetInventory(
             [HttpTrigger(AuthorizationLevel.Anonymous, "GET", Route = "store/inventory")] HttpRequest req)
         {
-            var result = this._fixture.Create<Dictionary<string, int>>();
+            var result = this.fixture.Create<Dictionary<string, int>>();
 
             return await Task.FromResult(new OkObjectResult(result)).ConfigureAwait(false);
         }
@@ -47,7 +47,7 @@ namespace Microsoft.Azure.WebJobs.Extensions.OpenApi.FunctionApp.InProc
         public async Task<IActionResult> PlaceOrder(
             [HttpTrigger(AuthorizationLevel.Anonymous, "POST", Route = "store/order")] HttpRequest req)
         {
-            return await Task.FromResult(new OkObjectResult(this._fixture.Create<Order>())).ConfigureAwait(false);
+            return await Task.FromResult(new OkObjectResult(this.fixture.Create<Order>())).ConfigureAwait(false);
         }
 
         [FunctionName(nameof(StoreHttpTrigger.GetOrderById))]
@@ -59,7 +59,7 @@ namespace Microsoft.Azure.WebJobs.Extensions.OpenApi.FunctionApp.InProc
         public async Task<IActionResult> GetOrderById(
             [HttpTrigger(AuthorizationLevel.Anonymous, "GET", Route = "store/order/{orderId}")] HttpRequest req, long orderId)
         {
-            var order = this._fixture.Build<Order>().With(p => p.Id, orderId).Create();
+            var order = this.fixture.Build<Order>().With(p => p.Id, orderId).Create();
 
             return await Task.FromResult(new OkObjectResult(order)).ConfigureAwait(false);
         }
