@@ -9,6 +9,8 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.FunctionApp.InProc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
+using static Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations.DefaultOpenApiConfigurationOptions;
+
 [assembly: FunctionsStartup(typeof(Startup))]
 
 namespace Microsoft.Azure.WebJobs.Extensions.OpenApi.FunctionApp.InProc
@@ -20,31 +22,31 @@ namespace Microsoft.Azure.WebJobs.Extensions.OpenApi.FunctionApp.InProc
             builder.Services.AddSingleton(new Fixture())
                             .AddSingleton<IOpenApiConfigurationOptions>(_ =>
                             {
-                                var options = new OpenApiConfigurationOptions()
+                                var options = new OpenApiConfigurationOptions
                                 {
-                                    Info = new OpenApiInfo()
+                                    Info = new OpenApiInfo
                                     {
-                                        Version = DefaultOpenApiConfigurationOptions.GetOpenApiDocVersion(),
-                                        Title = $"{DefaultOpenApiConfigurationOptions.GetOpenApiDocTitle()} (Injected)",
-                                        Description = DefaultOpenApiConfigurationOptions.GetOpenApiDocDescription(),
+                                        Version = GetOpenApiDocVersion(),
+                                        Title = $"{GetOpenApiDocTitle()} (Injected)",
+                                        Description = GetOpenApiDocDescription(),
                                         TermsOfService = new Uri("https://github.com/Azure/azure-functions-openapi-extension"),
-                                        Contact = new OpenApiContact()
+                                        Contact = new OpenApiContact
                                         {
                                             Name = "Enquiry",
                                             Email = "azfunc-openapi@microsoft.com",
                                             Url = new Uri("https://github.com/Azure/azure-functions-openapi-extension/issues"),
                                         },
-                                        License = new OpenApiLicense()
+                                        License = new OpenApiLicense
                                         {
                                             Name = "MIT",
                                             Url = new Uri("http://opensource.org/licenses/MIT"),
                                         }
                                     },
-                                    Servers = DefaultOpenApiConfigurationOptions.GetHostNames(),
-                                    OpenApiVersion = DefaultOpenApiConfigurationOptions.GetOpenApiVersion(),
-                                    IncludeRequestingHostName = DefaultOpenApiConfigurationOptions.IsFunctionsRuntimeEnvironmentDevelopment(),
-                                    ForceHttps = DefaultOpenApiConfigurationOptions.IsHttpsForced(),
-                                    ForceHttp = DefaultOpenApiConfigurationOptions.IsHttpForced(),
+                                    Servers = GetHostNames(),
+                                    OpenApiVersion = GetOpenApiVersion(),
+                                    IncludeRequestingHostName = IsFunctionsRuntimeEnvironmentDevelopment(),
+                                    ForceHttps = IsHttpsForced(),
+                                    ForceHttp = IsHttpForced(),
                                 };
 
                                 return options;

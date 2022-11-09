@@ -70,7 +70,7 @@ namespace Microsoft.Azure.WebJobs.Extensions.OpenApi.FunctionApp.InProc
             req.HttpContext.Response.Headers.Add("X-Rate-Limit", this._fixture.Create<int>().ToString());
             req.HttpContext.Response.Headers.Add("X-Expires-After", this._fixture.Create<DateTimeOffset>().ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"));
 
-            var result = new ContentResult()
+            var result = new ContentResult
             {
                 StatusCode = (int)HttpStatusCode.OK,
                 ContentType = "text/plain; charset=utf-8",
